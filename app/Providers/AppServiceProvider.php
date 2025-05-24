@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\Facades\URL;
 use App\Repositories\Auth\AuthInterface;
 use App\Repositories\AuthRepository;
 use App\Repositories\Book\BookInterface;
@@ -124,6 +125,10 @@ class AppServiceProvider extends ServiceProvider
             return Auth::check() && Auth::user()->role === 'manager';
         });
         Paginator::useBootstrap();
+
+        if (app()->environment('production')) {
+        URL::forceScheme('https');
+    }
 
     }
 }
